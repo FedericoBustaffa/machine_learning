@@ -40,23 +40,23 @@ L = 0.00001
 
 points = np.array([
     [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
-    [ 1, -1, 1.5, 1, -2, -1, 1, 0, -2.5, 1.45 ]
+    [ 1, 2.4, 2.7, 3.4, 5.5, 6.6, 6.8, 8.1, 8, 11 ]
 ])
 
-x = np.linspace(0, 11, 100)
-
-for i in range(1000):
+for _ in range(100000):
     a, b = fit(points, a, b, L)
-    # print("%.9f,\t%.9f" % (a, b))
-    y = a * x + b
-    print(y[0])
-    if i % 5 == 0:
-        plt.clf()
-        plt.ylim(-10, 10)
 
-        plt.scatter(points[0], points[1], color="black")
-        plt.plot(x, y, color="red")
-        plt.pause(0.000001)
+print(loss(points, a, b))
+print(a, b)
+
+x = np.linspace(points.min() - 1, points.max() + 1, 100)
+y = a * x + b
+
+# plot
+plt.title("Regressione Lineare")
+
+plt.scatter(points[0], points[1], color="black")
+plt.plot(x, y, color="red")
 
 plt.show()
 
