@@ -16,10 +16,10 @@ def loss(points, a, b):
 
 def fit(points, a, b, L):
     n = len(points)
-    
+
     a_gradient = 0
     b_gradient = 0
-    
+
     for i in range(n):
         x = points[0][i]
         y = points[1][i]
