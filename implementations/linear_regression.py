@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.linear_model import LinearRegression
 
 
 def loss(points, a, b):
@@ -37,41 +36,39 @@ def fit(points, a, b, L):
 # main
 a = 0.0
 b = 0.0
-L = 0.00000001
+L = 0.0000001
 
 points = np.array([
     [i for i in range(10)],
     [np.random.randint(0, 10) for i in range(10)]
 ])
 
-for i in range(1000000):
-    a, b = fit(points, a, b, L)
+# for i in range(100000):
+# a, b = fit(points, a, b, L)
 
-# i = 0
-# while True:
-#     i += 1
-#     l1 = loss(points, a, b)
-#     a, b = fit(points, a, b, L)
-#     l2 = loss(points, a, b)
-#     # print(l1)
-#     if (l1 < l2):
-#         break
+while True:
+    l1 = loss(points, a, b)
+    a, b = fit(points, a, b, L)
+    l2 = loss(points, a, b)
+    if l1 % 111:
+        print(l1)
+    if l1 < l2:
+        break
+
+x = np.linspace(points.min() - 1, points.max() + 1, 30)
+y = a * x + b
+
+plt.title("Regressione Lineare")
+plt.scatter(points[0], points[1], color="black")
+plt.ylim(-10, 30)
+plt.plot(x, y, color="red")
+
+plt.show()
+
 
 # print(f"Iterations {i}")
 print(f"a: {a}\nb: {b}")
 print(f"Loss: {loss(points, a, b)}")
 
-model = LinearRegression()
-model.fit(points[0].reshape(-1, 1), points[1].reshape(-1, 1))
-
-x = np.linspace(points.min() - 1, points.max() + 1, 30)
-y = a * x + b
 
 # plot
-plt.title("Regressione Lineare")
-plt.ylim(-10, 40)
-
-plt.scatter(points[0], points[1], color="black")
-plt.plot(x, y, color="red")
-plt.plot(x, model.predict(x.reshape(-1, 1)), color="green")
-plt.show()
