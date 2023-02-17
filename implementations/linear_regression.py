@@ -1,74 +1,73 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+import random
 
 
-def loss(points, a, b):
-    loss = 0.0
+def error(points, a, b):
+    total_error = 0.0
     n = len(points[0])
 
     for i in range(n):
         x = points[0][i]
         y = points[1][i]
-        loss += (y - (a * x + b)) ** 2
+        total_error += (y - (a * x + b)) ** 2
 
-    return loss / float(n)
+    return total_error / float(n) 
 
 
-def fit(points, a, b, L):
+def fit(points, a_now, b_now, L):
     n = len(points[0])
 
-    a_delta = 0.0
-    b_delta = 0.0
+    a_gradient = 0.0
+    b_gradient = 0.0
 
     for i in range(n):
         x = points[0][i]
         y = points[1][i]
 
-        a_delta += (2 / n) * (y - (a * x + b)) * (-x)
-        b_delta += (2 / n) * (y - (a * x + b)) * (-1)
+        a_gradient += (y - (a_now * x + b_now)) * x
+        b_gradient += (y - (a_now * x + b_now))
 
-    new_a = a - a_delta * L
-    new_b = b - b_delta * L
+    new_a = a_now + a_gradient * L
+    new_b = b_now + b_gradient * L
 
     return new_a, new_b
 
 
-# main
-a = 0.0
-b = 0.0
-L = 0.0000001
+if __name__ == "__main__":
+    # parametri iniziali
+    a = 0
+    b = 0
+    L = 0.0005
+    epochs = 3000
 
-points = np.array([
-    [i for i in range(10)],
-    [np.random.randint(0, 10) for i in range(10)]
-])
+    # dataset
+    x_values = np.linspace(1, 10, 10)
+    y_values = [5 + np.random.randint(-10, 10) / 10 for i in x_values ]
+    points = np.array([ x_values, y_values ])
 
-# for i in range(100000):
-# a, b = fit(points, a, b, L)
-
-while True:
-    l1 = loss(points, a, b)
-    a, b = fit(points, a, b, L)
-    l2 = loss(points, a, b)
-    if l1 % 111:
-        print(l1)
-    if l1 < l2:
-        break
-
-x = np.linspace(points.min() - 1, points.max() + 1, 30)
-y = a * x + b
-
-plt.title("Regressione Lineare")
-plt.scatter(points[0], points[1], color="black")
-plt.ylim(-10, 30)
-plt.plot(x, y, color="red")
-
-plt.show()
+    # fitting
+    for i in range(epochs):
+        a, b = fit(points, a, b, L)
+        
+        if i % 50 == 0:
+            x = np.linspace(0, 11, 20)
+            y = a * x + b
+            
+            # plot
+            plt.clf()
+            plt.title("Regressione Lineare")
+            plt.xlim(0, 11)
+            plt.ylim(0, 10)
+            plt.scatter(points[0], points[1], color="black")
+            plt.plot(x, y, color="red")
+            plt.pause(0.0001)
 
 
-# print(f"Iterations {i}")
-print(f"a: {a}\nb: {b}")
-print(f"Loss: {loss(points, a, b)}")
+    # risultato
+    print(f"Coefficiente angolare: {a}")
+    print(f"Quota: {b}")
+    print(f"Errore: {error(points, a, b)}")
+    
+    plt.show()
 
-
-# plot
