@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+from sklearn.linear_model import LinearRegression
 
 
 def error(points, a, b):
@@ -38,19 +39,19 @@ if __name__ == "__main__":
     # parametri iniziali
     a = 0
     b = 0
-    L = 0.0005
-    epochs = 3000
+    L = 0.001
+    epochs = 5000
 
     # dataset
-    x_values = np.linspace(1, 10, 10)
-    y_values = [5 + np.random.randint(-10, 10) / 10 for i in x_values ]
+    x_values = np.linspace(1, 10, 20)
+    y_values = [np.random.randint(1, 10) for _ in range(len(x_values)) ]
     points = np.array([ x_values, y_values ])
 
     # fitting
     for i in range(epochs):
         a, b = fit(points, a, b, L)
         
-        if i % 50 == 0:
+        if i % 100 == 0:
             x = np.linspace(0, 11, 20)
             y = a * x + b
             
@@ -68,6 +69,13 @@ if __name__ == "__main__":
     print(f"Coefficiente angolare: {a}")
     print(f"Quota: {b}")
     print(f"Errore: {error(points, a, b)}")
+
+    model = LinearRegression()
+    model.fit(points[0].reshape(-1, 1), points[1].reshape(-1, 1))
+
+    # retta ideale
+    x = np.linspace(0, 11, 20)
+    plt.plot(x, model.predict(x.reshape(-1, 1)), color="blue")
     
     plt.show()
 
