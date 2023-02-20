@@ -66,7 +66,6 @@ if __name__ == "__main__":
     points = np.array([x_values, y_values])
 
     # fitting
-    mean = points.mean()
     x_min = points[0].min()
     x_max = points[0].max()
     y_min = points[1].min()
@@ -75,16 +74,14 @@ if __name__ == "__main__":
     for i in range(epochs):
         coef = fit(points, coef, L)
 
-        if i % 75 == 0:
-            x = np.linspace(x_min - mean, x_max + mean, 100)
+        if i % 50 == 0:
+            x = np.linspace(x_min, x_max, 100)
             y = predict(coef, x)
 
             # plot
             plt.clf()
 
             plt.title("Regressione Polinomiale")
-            plt.xlim(x_min - mean, x_max + mean)
-            plt.ylim(y_min - mean, y_max + mean)
             plt.grid()
 
             plt.scatter(points[0], points[1], color="black")
