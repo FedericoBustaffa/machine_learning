@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import sys
 
 
 def error(points, a, b, c):
@@ -43,13 +42,11 @@ def predict(a, b, x):
 
 
 if __name__ == "__main__":
-
-	print(sys.argv[0])
-	a = 0
-	b = 0
+    a = 0
+    b = 0
     c = 0
-	L = 0.05
-	epochs = 5000
+    L = 0.05
+    epochs = 5000
 
     # dataset
     data = pd.read_csv("dataset1.csv")
