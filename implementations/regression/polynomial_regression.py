@@ -65,12 +65,11 @@ if __name__ == "__main__":
     y_values = data.y.values
     points = np.array([x_values, y_values])
 
-    # fitting
+    # samples per il plot
     x_min = points[0].min()
     x_max = points[0].max()
-    y_min = points[1].min()
-    y_max = points[1].max()
 
+    # fitting
     for i in range(epochs):
         coef = fit(points, coef, L)
 
