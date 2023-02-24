@@ -46,7 +46,6 @@ if __name__ == "__main__":
     # dataset
     data = pd.read_csv(f"../datasets/{dataset}")
     points = data.to_numpy().T
-    print(points)
 
     # samples per il plot
     x_min = points[0].min()
